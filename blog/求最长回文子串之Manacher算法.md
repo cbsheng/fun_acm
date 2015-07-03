@@ -43,7 +43,7 @@
 下标     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20
 
 
-字符串 s 的最长的回文子串是 P[10] - 1 = 9。
+字符串 s 的最长的回文子串是 p[10] - 1 = 9。
 
 
 #### 预处理的作用
@@ -53,19 +53,46 @@
 
 
 #### 如何构造数组p
+  Manacher 算法设两个变量 id 和 mx 。前者指代回文串中心字符的下标，后者mx = p[id] + id，即回文串的边界。
+  
+  那么每一个 p[i]都有这样的递推式：
+  
+    p[i] = min{ p[2 * id - i], mx - i }     仅当 mx > i 时
+    p[i] = 1    当 mx <= i 时
 
-
+  
+  
 
 ---
 
 ### 参考代码
 
+```c++
+int longest_plalindrome_substring(char *s)
+{//p[i] = min{p[2 * id - 1], mx - i}
+	int id = 0, mx = 0, max = 0;
+	for (int i = 1; s[i] != '\0'; ++i) {
+		p[i] = mx > i ? min(p[2 * id - i], mx - i) : 1;
+		while (s[i + p[i]] == s[i - p[i]]) p[i]++;
+		if ((i + p[i]) > mx) {
+			mx = i + p[i];
+			id = i;
+		}
+		if (max < p[i]) max = p[i];
+	}
+	return max - 1;
+}
+```
+
 ---
 
 ### 练习题目
+- [hihocoder 1032](http://hihocoder.com/problemset/problem/1032)
+- [hdu 3294](http://acm.hdu.edu.cn/showproblem.php?pid=3294)
+
 
 ---
 
 ### 参考资料
-[The-Art-Of-Programming-By-July之最长回文子串](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.05.md)
-[Longest palindromic substring](https://en.wikipedia.org/wiki/Longest_palindromic_substring#CITEREFApostolicoBreslauerGalil1995)
+- [The-Art-Of-Programming-By-July之最长回文子串](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.05.md)
+- [Longest palindromic substring](https://en.wikipedia.org/wiki/Longest_palindromic_substring#CITEREFApostolicoBreslauerGalil1995)
