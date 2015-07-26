@@ -10,18 +10,19 @@
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-       vector<int> res;
+        //非递归解法
+        vector<int> res;
         stack<TreeNode*> stk;
-        stk.push(root);
-        //TreeNode tmp;
+        if (root)
+            stk.push(root);
         while (!stk.empty()) {
             root = stk.top();
             stk.pop();
-            if (NULL == root)
-                continue;
             res.push_back(root->val);
-            stk.push(root->right);
-            stk.push(root->left);
+            if (root->right)
+                stk.push(root->right);
+            if (root->left)
+                stk.push(root->left);
         }
         return res;
     }
