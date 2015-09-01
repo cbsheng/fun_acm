@@ -10,13 +10,14 @@ public:
 
     // Implement an assignment operator
     Solution& operator=(const Solution &object) {
-        char *p = NULL;
-        if (object.m_pData) {
-            p = new char[strlen(object.m_pData) + 1];
-            strcpy(p, object.m_pData);
+        if (&object != this) {
+            delete []m_pData;
+            m_pData = NULL;
+            if (object.m_pData) {
+                m_pData = new char[strlen(object.m_pData) + 1];
+                strcpy(m_pData, object.m_pData);
+            }
         }
-        delete this->m_pData;
-        this->m_pData = p;
         return *this;
     }
 };
