@@ -19,19 +19,19 @@ public:
      * @return: The new head of reversed linked list.
      */
     ListNode *reverse(ListNode *head) {
-        if (NULL == head)
-            return NULL;
+        if (NULL == head) return NULL;
         
-        ListNode dummy(0);
-        ListNode *h = &dummy;
-        ListNode *p = head;
-        while (p) {
-            ListNode *tmp = new ListNode(p->val);
-            tmp->next = h->next;
-            h->next = tmp;
-            p = p->next;
+        ListNode *pre = NULL;
+        ListNode *cur = head;
+        ListNode *tmp = NULL;
+        while (cur) {
+            tmp = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = tmp;
         }
-        return dummy.next;
+        
+        return pre;
     }
 };
 
